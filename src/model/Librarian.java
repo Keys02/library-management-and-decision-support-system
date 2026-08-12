@@ -6,11 +6,30 @@ public class Librarian {
     private String email;
     private int libraryId;
 
-    public Librarian(int id, String name, String email, int libraryId) {
+    public Librarian(
+            int id,
+            String name,
+            String email,
+            int libraryId
+    ) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.libraryId = libraryId;
+    }
+
+    public String getDetails() {
+        return String.format(
+            "Librarian{id=%d, name='%s', email='%s', libraryId=%d}",
+            id,
+            name,
+            email,
+            libraryId
+        );
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
     }
 
     public int getId() {
@@ -31,10 +50,6 @@ public class Librarian {
 
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public int getLibraryId() {
