@@ -24,6 +24,22 @@ public class Book {
         this.libraryId = libraryId;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void markBorrowed() {
+        if (!available) {
+            throw new IllegalStateException("Book is already borrowed.");
+        }
+
+        available = false;
+    }
+
+    public void markReturned() {
+        available = true;
+    }
+
     public int getId() {
         return id;
     }
@@ -54,14 +70,6 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
     }
 
     public int getLibraryId() {
