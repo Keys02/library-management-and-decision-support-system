@@ -29,6 +29,14 @@ public class ServiceRequest {
         this.createdAt = createdAt;
     }
 
+    public int calculatePriority() {
+        return urgency;
+    }
+
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }
