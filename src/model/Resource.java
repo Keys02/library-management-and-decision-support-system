@@ -7,7 +7,6 @@ public class Resource {
     private double cost;
     private int quantity;
     private int value;
-    private int libraryId;
 
     public Resource(
             int id,
@@ -15,8 +14,7 @@ public class Resource {
             String type,
             double cost,
             int quantity,
-            int value,
-            int libraryId
+            int value
     ) {
         this.id = id;
         this.name = name;
@@ -24,7 +22,14 @@ public class Resource {
         this.cost = cost;
         this.quantity = quantity;
         this.value = value;
-        this.libraryId = libraryId;
+    }
+
+    public double totalCost() {
+        return cost * quantity;
+    }
+
+    public int totalValue() {
+        return value * quantity;
     }
 
     public int getId() {
@@ -73,13 +78,5 @@ public class Resource {
 
     public void setValue(int value) {
         this.value = value;
-    }
-
-    public int getLibraryId() {
-        return libraryId;
-    }
-
-    public void setLibraryId(int libraryId) {
-        this.libraryId = libraryId;
     }
 }
