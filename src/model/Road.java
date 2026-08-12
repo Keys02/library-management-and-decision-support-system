@@ -21,6 +21,30 @@ public class Road {
         this.travelTime = travelTime;
     }
 
+    public int getOtherLibrary(int libraryId) {
+        if (libraryId == sourceLibraryId) {
+            return destinationLibraryId;
+        }
+
+        if (libraryId == destinationLibraryId) {
+            return sourceLibraryId;
+        }
+
+        throw new IllegalArgumentException(
+            "Library is not connected by this road."
+        );
+    }
+
+    public double getWeight(String type) {
+        return switch (type.toLowerCase()) {
+            case "distance" -> distance;
+            case "time", "traveltime" -> travelTime;
+            default -> throw new IllegalArgumentException(
+                "Unknown weight type: " + type
+            );
+        };
+    }
+
     public int getId() {
         return id;
     }
