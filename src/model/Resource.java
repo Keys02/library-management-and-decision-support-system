@@ -3,7 +3,7 @@ package model;
 public class Resource {
     private int id;
     private String name;
-    private String type;
+    private ResourceType type;
     private double cost;
     private int quantity;
     private int value;
@@ -11,7 +11,7 @@ public class Resource {
     public Resource(
             int id,
             String name,
-            String type,
+            ResourceType type,
             double cost,
             int quantity,
             int value
@@ -48,11 +48,11 @@ public class Resource {
         this.name = name;
     }
 
-    public String getType() {
+    public ResourceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ResourceType type) {
         this.type = type;
     }
 

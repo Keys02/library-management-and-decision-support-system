@@ -27,8 +27,8 @@ public class Patron {
 
     public List<ServiceRequest> getActiveRequests() {
         return serviceRequests.stream()
-                .filter(request -> request.getStatus().equals("PENDING")
-                        || request.getStatus().equals("PROCESSING"))
+                .filter(request -> request.getStatus() == RequestStatus.PENDING
+                        || request.getStatus() == RequestStatus.PROCESSING)
                 .toList();
     }
 

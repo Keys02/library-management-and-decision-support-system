@@ -6,18 +6,18 @@ public class ServiceRequest {
     private int id;
     private int patronId;
     private int bookId;
-    private String requestType;
+    private RequestType requestType;
     private int urgency;
-    private String status;
+    private RequestStatus status;
     private LocalDateTime createdAt;
 
     public ServiceRequest(
             int id,
             int patronId,
             int bookId,
-            String requestType,
+            RequestType requestType,
             int urgency,
-            String status,
+            RequestStatus status,
             LocalDateTime createdAt
     ) {
         this.id = id;
@@ -33,7 +33,7 @@ public class ServiceRequest {
         return urgency;
     }
 
-    public void updateStatus(String status) {
+    public void updateStatus(RequestStatus status) {
         this.status = status;
     }
 
@@ -61,11 +61,11 @@ public class ServiceRequest {
         this.bookId = bookId;
     }
 
-    public String getRequestType() {
+    public RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(String requestType) {
+    public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
     }
 
@@ -77,11 +77,11 @@ public class ServiceRequest {
         this.urgency = urgency;
     }
 
-    public String getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
     }
 

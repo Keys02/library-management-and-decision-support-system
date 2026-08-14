@@ -1,5 +1,7 @@
 package model;
 
+import exception.BookUnavailableException;
+
 public class Book {
     private int id;
     private String title;
@@ -30,7 +32,7 @@ public class Book {
 
     public void markBorrowed() {
         if (!available) {
-            throw new IllegalStateException("Book is already borrowed.");
+            throw new BookUnavailableException(id);
         }
 
         available = false;
