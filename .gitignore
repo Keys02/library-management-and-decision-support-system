@@ -4,17 +4,30 @@ out/
 !**/src/test/**/out/
 .kotlin
 
+### SQLite ###
+# Generated database files differ per machine/test run — never commit these.
+# The SQLite JDBC driver jar under lib/ IS committed on purpose (no Maven/
+# Gradle in this project, so every teammate needs the same jar available).
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+### Compiled output ###
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
 ### Eclipse ###
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# NOTE: .settings/ is NOT ignored — it holds org.eclipse.jdt.core.prefs,
+# which fixes the JDK 17 / text-block false-error issue in VS Code for
+# everyone who pulls this repo. Keep it committed.
 
 ### NetBeans ###
 /nbproject/private/
@@ -24,7 +37,13 @@ bin/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 ### Mac OS ###
 .DS_Store
+
+### Windows ###
+Thumbs.db
+desktop.ini
