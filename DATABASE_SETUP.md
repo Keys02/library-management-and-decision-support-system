@@ -11,7 +11,7 @@ not a particular architecture pattern.
 
 ## 0. Start here, right now (first 15 minutes)
 
-1. Download the SQLite JDBC driver jar (`sqlite-jdbc-3.53.2.1.jar`) from Maven
+1. Download the SQLite JDBC driver jar (`sqlite-jdbc-3.4x.x.jar`) from Maven
    Central: https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/
 2. In IntelliJ: `File > Project Structure > Libraries > +` → point it at the
    downloaded jar. This project has no Maven/Gradle setup, so the jar must
@@ -227,6 +227,11 @@ public class DatabaseManager {
 
 `db` is a new package, same level as `model` and `exception`.
 
+**Package split:** `db/` holds only `DatabaseManager` (connection +
+schema creation). All repository classes live in a separate `repo/`
+package, same level as `db`, `model`, and `exception`. Each repository
+imports `db.DatabaseManager` to get the shared connection.
+
 ---
 
 ## 4. Repository classes — hand-written SQL, one class per entity
@@ -235,8 +240,9 @@ No interfaces, no abstraction — a concrete class per table, each method
 runs its own SQL. Example for `libraries`:
 
 ```java
-package db;
+package repo;
 
+import db.DatabaseManager;
 import model.Library;
 
 import java.sql.*;

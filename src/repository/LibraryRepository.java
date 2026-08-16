@@ -1,5 +1,6 @@
-package db;
+package repo;
 
+import db.DatabaseManager;
 import model.Library;
 
 import java.sql.Connection;
