@@ -1,6 +1,7 @@
 package datastructures.linear;
 
 import datastructures.interfaces.List;
+import datastructures.interfaces.Iterator;
 
 public class LinkedList<T> implements List<T> {
 
@@ -187,5 +188,9 @@ public class LinkedList<T> implements List<T> {
         builder.append("]");
 
         return builder.toString();
+    }
+
+    public Iterator<T> iterator() {
+        return new LinkedListIterator<>(head);
     }
 }
