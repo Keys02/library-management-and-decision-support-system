@@ -1,4 +1,4 @@
-package test;
+package test.linear;
 
 import datastructures.linear.ArrayDeque;
 

@@ -61,6 +61,25 @@ public class DynamicArray<T> implements List<T> {
         return removed;
     }
 
+    public void swap(int i, int j) {
+
+        checkIndex(i);
+        checkIndex(j);
+
+        Object temp = elements[i];
+        elements[i] = elements[j];
+        elements[j] = temp;
+    }
+
+    public int lastIndex() {
+
+        if (isEmpty()) {
+            return -1;
+        }
+
+        return size - 1;
+    }
+
     @Override
     public boolean contains(T item) {
         return indexOf(item) != -1;
