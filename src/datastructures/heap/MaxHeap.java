@@ -54,4 +54,59 @@ public class MaxHeap {
     public String toString() {
         return heap.toString();
     }
+
+    public int extractMax() {
+
+        if (isEmpty()) {
+            throw new IllegalStateException("Heap is empty.");
+        }
+
+        int max = heap.get(0);
+
+        if (heap.size() == 1) {
+            heap.remove(0);
+            return max;
+        }
+
+        heap.set(0, heap.get(heap.lastIndex()));
+
+        heap.remove(heap.lastIndex());
+
+        heapifyDown(0);
+
+        return max;
+    }
+
+    private void heapifyDown(int index) {
+
+        while (true) {
+
+            int left = (2 * index) + 1;
+            int right = (2 * index) + 2;
+
+            int largest = index;
+
+            if (left < heap.size() &&
+                    heap.get(left) > heap.get(largest)) {
+
+                largest = left;
+            }
+
+            if (right < heap.size() &&
+                    heap.get(right) > heap.get(largest)) {
+
+                largest = right;
+            }
+
+            if (largest == index) {
+                break;
+            }
+
+            heap.swap(index, largest);
+
+            index = largest;
+        }
+    }
+
+
 }

@@ -14,12 +14,17 @@ public class HeapTest {
         heap.insert(90);
         heap.insert(30);
 
+        System.out.println("Heap:");
         System.out.println(heap);
 
         System.out.println();
 
-        System.out.println("Maximum:");
-        System.out.println(heap.peek());
+        System.out.println("Extracting Max:");
 
+        while (!heap.isEmpty()) {
+
+            System.out.println(heap.extractMax());
+
+        }
     }
 }
