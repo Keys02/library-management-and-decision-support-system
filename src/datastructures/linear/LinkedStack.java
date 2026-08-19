@@ -6,7 +6,7 @@ public class LinkedStack<T> implements Stack<T> {
 
     private final LinkedList<T> list;
 
-    public Stack() {
+    public LinkedStack() {
         list = new LinkedList<>();
     }
 

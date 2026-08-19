@@ -1,4 +1,4 @@
-package repo;
+package repository;
 
 import db.DatabaseManager;
 import model.Library;
