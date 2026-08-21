@@ -17,9 +17,8 @@ public class GraphTest {
         graph.addUndirectedEdge(0, 2, 4.1);
         graph.addUndirectedEdge(1, 3, 1.2);
 
-        System.out.println("BFS Traversal:");
-
-        graph.bfs(0);
+        System.out.println("DFS Traversal:");
+        graph.dfs(0);
 
     }
 }

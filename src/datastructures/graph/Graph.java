@@ -1,6 +1,7 @@
 package datastructures.graph;
 import datastructures.linear.ArrayQueue;
 import datastructures.linear.DynamicArray;
+import datastructures.linear.LinkedStack;
 
 public class Graph<T> {
 
@@ -87,5 +88,42 @@ public class Graph<T> {
         }
 
         return -1;
+    }
+
+    public void dfs(int startIndex) {
+
+        boolean[] visited = new boolean[vertices.size()];
+
+        LinkedStack<GraphNode<T>> stack = new LinkedStack<>();
+
+        stack.push(vertices.get(startIndex));
+
+        while (!stack.isEmpty()) {
+
+            GraphNode<T> current = stack.pop();
+
+            int currentIndex = getVertexIndex(current);
+
+            if (visited[currentIndex]) {
+                continue;
+            }
+
+            visited[currentIndex] = true;
+
+            System.out.println(current);
+
+            for (int i = current.getEdges().size() - 1; i >= 0; i--) {
+
+                GraphEdge<T> edge = current.getEdges().get(i);
+
+                GraphNode<T> neighbour = edge.getDestination();
+
+                int neighbourIndex = getVertexIndex(neighbour);
+
+                if (!visited[neighbourIndex]) {
+                    stack.push(neighbour);
+                }
+            }
+        }
     }
 }
