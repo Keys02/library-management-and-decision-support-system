@@ -11,22 +11,15 @@ public class GraphTest {
         graph.addVertex("Balme Library");
         graph.addVertex("Commonwealth Hall");
         graph.addVertex("Legon Hall");
+        graph.addVertex("Business School");
 
-        graph.addEdge(0, 1, 2.5);
-        graph.addEdge(0, 2, 4.1);
+        graph.addUndirectedEdge(0, 1, 2.5);
+        graph.addUndirectedEdge(0, 2, 4.1);
+        graph.addUndirectedEdge(1, 3, 1.2);
 
-        System.out.println("Vertices and Connections");
+        System.out.println("BFS Traversal:");
 
-        for (int i = 0; i < graph.size(); i++) {
+        graph.bfs(0);
 
-            System.out.println(graph.getVertex(i));
-
-            System.out.println(
-                "Connections: " +
-                graph.getVertex(i).getEdges().size()
-            );
-
-            System.out.println();
-        }
     }
 }

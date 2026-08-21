@@ -1,5 +1,5 @@
 package datastructures.graph;
-
+import datastructures.linear.ArrayQueue;
 import datastructures.linear.DynamicArray;
 
 public class Graph<T> {
@@ -30,5 +30,62 @@ public class Graph<T> {
 
     public GraphNode<T> getVertex(int index) {
         return vertices.get(index);
+    }
+
+    public void addUndirectedEdge(int sourceIndex,
+                              int destinationIndex,
+                              double weight) {
+
+        addEdge(sourceIndex, destinationIndex, weight);
+        addEdge(destinationIndex, sourceIndex, weight);
+    }
+
+    public void bfs(int startIndex) {
+
+        boolean[] visited = new boolean[vertices.size()];
+
+        ArrayQueue<GraphNode<T>> queue = new ArrayQueue<>();
+
+        GraphNode<T> start = vertices.get(startIndex);
+
+        visited[startIndex] = true;
+
+        queue.enqueue(start);
+
+        while (!queue.isEmpty()) {
+
+            GraphNode<T> current = queue.dequeue();
+
+            System.out.println(current);
+
+            for (int i = 0; i < current.getEdges().size(); i++) {
+
+                GraphEdge<T> edge = current.getEdges().get(i);
+
+                GraphNode<T> neighbour = edge.getDestination();
+
+                int neighbourIndex = getVertexIndex(neighbour);
+
+                if (!visited[neighbourIndex]) {
+
+                    visited[neighbourIndex] = true;
+
+                    queue.enqueue(neighbour);
+                }
+            }
+        }
+    }
+
+    private int getVertexIndex(GraphNode<T> node) {
+
+        for (int i = 0; i < vertices.size(); i++) {
+
+            if (vertices.get(i) == node) {
+                return i;
+            }
+
+        }
+
+        return -1;
     }
 }
