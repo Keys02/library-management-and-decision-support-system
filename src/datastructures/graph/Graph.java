@@ -12,7 +12,10 @@ public class Graph<T> {
     }
 
     public void addVertex(T data) {
-        vertices.add(new GraphNode<>(data));
+       GraphNode<T> node =
+        new GraphNode<>(vertices.size(), data);
+
+        vertices.add(node);
     }
 
     public void addEdge(int sourceIndex,
@@ -63,10 +66,9 @@ public class Graph<T> {
 
                 GraphEdge<T> edge = current.getEdges().get(i);
 
-                GraphNode<T> neighbour = edge.getDestination();
+               GraphNode<T> neighbour = edge.getDestination();
 
-                int neighbourIndex = getVertexIndex(neighbour);
-
+               int neighbourIndex = neighbour.getId();
                 if (!visited[neighbourIndex]) {
 
                     visited[neighbourIndex] = true;
@@ -77,18 +79,7 @@ public class Graph<T> {
         }
     }
 
-    private int getVertexIndex(GraphNode<T> node) {
 
-        for (int i = 0; i < vertices.size(); i++) {
-
-            if (vertices.get(i) == node) {
-                return i;
-            }
-
-        }
-
-        return -1;
-    }
 
     public void dfs(int startIndex) {
 
@@ -102,7 +93,7 @@ public class Graph<T> {
 
             GraphNode<T> current = stack.pop();
 
-            int currentIndex = getVertexIndex(current);
+            int currentIndex = current.getId();
 
             if (visited[currentIndex]) {
                 continue;
@@ -116,14 +107,121 @@ public class Graph<T> {
 
                 GraphEdge<T> edge = current.getEdges().get(i);
 
-                GraphNode<T> neighbour = edge.getDestination();
+               GraphNode<T> neighbour = edge.getDestination();
 
-                int neighbourIndex = getVertexIndex(neighbour);
+               int neighbourIndex = neighbour.getId();
 
                 if (!visited[neighbourIndex]) {
                     stack.push(neighbour);
                 }
             }
         }
+    }
+
+    public double[] initializeDistances(int startIndex) {
+
+        double[] distances = new double[vertices.size()];
+
+        for (int i = 0; i < distances.length; i++) {
+            distances[i] = Double.POSITIVE_INFINITY;
+        }
+
+        distances[startIndex] = 0.0;
+
+        return distances;
+    }
+
+    private void relaxEdge(double[] distances,
+                       int currentIndex,
+                       GraphEdge<T> edge) {
+
+        int neighbourIndex = edge.getDestination().getId();
+        double newDistance =
+                distances[currentIndex] + edge.getWeight();
+
+        if (newDistance < distances[neighbourIndex]) {
+
+            distances[neighbourIndex] = newDistance;
+
+        }
+    }
+
+    public double[] relaxNeighbours(int startIndex) {
+
+        double[] distances = initializeDistances(startIndex);
+
+        GraphNode<T> start = vertices.get(startIndex);
+
+        for (int i = 0; i < start.getEdges().size(); i++) {
+
+            relaxEdge(
+                    distances,
+                    startIndex,
+                    start.getEdges().get(i)
+            );
+
+        }
+
+        return distances;
+    }
+
+    private int getClosestUnvisited(double[] distances, boolean[] visited) {
+
+        double smallest = Double.POSITIVE_INFINITY;
+        int index = -1;
+
+        for (int i = 0; i < distances.length; i++) {
+
+            if (!visited[i] && distances[i] < smallest) {
+                smallest = distances[i];
+                index = i;
+            }
+        }
+
+        return index;
+    }
+
+    public double[] dijkstra(int startIndex) {
+
+        double[] distances = initializeDistances(startIndex);
+
+        boolean[] visited = new boolean[vertices.size()];
+
+        for (int i = 0; i < vertices.size(); i++) {
+
+            int current = getClosestUnvisited(distances, visited);
+
+            if (current == -1) {
+                break;
+            }
+
+            visited[current] = true;
+
+            GraphNode<T> node = vertices.get(current);
+
+            for (int j = 0; j < node.getEdges().size(); j++) {
+
+                GraphEdge<T> edge = node.getEdges().get(j);
+
+                int neighbour = edge.getDestination().getId();
+
+                if (!visited[neighbour]) {
+
+                    double newDistance =
+                            distances[current] + edge.getWeight();
+
+                    if (newDistance < distances[neighbour]) {
+
+                        distances[neighbour] = newDistance;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return distances;
     }
 }

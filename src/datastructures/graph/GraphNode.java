@@ -4,16 +4,18 @@ import datastructures.linear.LinkedList;
 
 public class GraphNode<T> {
 
+    private final int id;
     private final T data;
-
     private final LinkedList<GraphEdge<T>> edges;
 
-    public GraphNode(T data) {
-
+    public GraphNode(int id, T data) {
+        this.id = id;
         this.data = data;
-
         this.edges = new LinkedList<>();
+    }
 
+    public int getId() {
+        return id;
     }
 
     public T getData() {
