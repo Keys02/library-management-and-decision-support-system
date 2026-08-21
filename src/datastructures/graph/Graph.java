@@ -1,25 +1,34 @@
 package datastructures.graph;
 
-import model.Library;
-import model.Road;
+import datastructures.linear.DynamicArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class Graph<T> {
 
-public class Graph {
-
-    private final Map<Integer, Library> libraries;
-
-    private final Map<Integer, List<Road>> adjacencyList;
+    private final DynamicArray<GraphNode<T>> vertices;
 
     public Graph() {
-
-        libraries = new HashMap<>();
-
-        adjacencyList = new HashMap<>();
-
+        vertices = new DynamicArray<>();
     }
 
+    public void addVertex(T data) {
+        vertices.add(new GraphNode<>(data));
+    }
+
+    public void addEdge(int sourceIndex,
+                        int destinationIndex,
+                        double weight) {
+
+        GraphNode<T> source = vertices.get(sourceIndex);
+        GraphNode<T> destination = vertices.get(destinationIndex);
+
+        source.addEdge(new GraphEdge<>(destination, weight));
+    }
+
+    public int size() {
+        return vertices.size();
+    }
+
+    public GraphNode<T> getVertex(int index) {
+        return vertices.get(index);
+    }
 }
