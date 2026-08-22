@@ -40,6 +40,32 @@ public class BinarySearchTreeTest {
         System.out.println("Contains 35: "
                 + tree.contains(35));
 
+        System.out.println("Inorder Traversal");
+        tree.inorder();
+
+        System.out.println();
+
+        System.out.println("Contains 60: " + tree.contains(60));
+        System.out.println("Contains 35: " + tree.contains(35));
+
+        System.out.println();
+
+        System.out.println("Preorder Traversal");
+        tree.preorder();
+
+        System.out.println();
+
+        System.out.println("Postorder Traversal");
+        tree.postorder();
+
+        System.out.println();
+
+        tree.delete(50);
+
+        System.out.println("After deleting 50:");
+
+        tree.inorder();
+
     }
 
 }
