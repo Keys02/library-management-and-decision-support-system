@@ -1,11 +1,9 @@
 package datastructures.tree;
 
-public class BSTNode<T extends Comparable<T>> {
+public class BSTNode<T> {
 
     private T data;
-
     private BSTNode<T> left;
-
     private BSTNode<T> right;
 
     public BSTNode(T data) {
@@ -35,4 +33,5 @@ public class BSTNode<T extends Comparable<T>> {
     public void setRight(BSTNode<T> right) {
         this.right = right;
     }
+
 }
