@@ -1,11 +1,11 @@
-import db.LibraryRepository;
+import repository.LibraryRepository;
 import model.Library;
 
 import java.util.List;
 
 public class TestDb {
     public static void main(String[] args) {
-        LibraryRepository repo = new LibraryRepository();
+        repository.LibraryRepository repo = new repository.LibraryRepository();
 
         Library accraCentral = new Library(0, "Accra Central Library", "Accra", "8am - 6pm");
         repo.save(accraCentral);
