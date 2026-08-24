@@ -1,6 +1,6 @@
 {
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "c:\\Users\\Sammy lopez\\Desktop\\DSA\\DSA project\\library-smart-service-system\\lib\\sqlite-jdbc-3.53.2.1.jar"
     ],
     "java.project.sourcePaths": [
         "src"
