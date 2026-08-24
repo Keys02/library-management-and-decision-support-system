@@ -1,7 +1,6 @@
-import db.LibraryRepository;
+import repository.LibraryRepository;
+import datastructures.linear.LinkedList;
 import model.Library;
-
-import java.util.List;
 
 public class TestDb {
     public static void main(String[] args) {
@@ -10,9 +9,10 @@ public class TestDb {
         Library accraCentral = new Library(0, "Accra Central Library", "Accra", "8am - 6pm");
         repo.save(accraCentral);
 
-        List<Library> all = repo.findAll();
+        LinkedList<Library> all = repo.findAll();
         System.out.println("Libraries in database: " + all.size());
-        for (Library library : all) {
+        for (int i = 0; i < all.size(); i++) {
+            Library library = all.get(i);
             System.out.println(
                 "Library{id=" + library.getId()
                 + ", name='" + library.getLibraryName() + "'"

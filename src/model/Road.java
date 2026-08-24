@@ -84,4 +84,13 @@ public class Road {
     public void setTravelTime(double travelTime) {
         this.travelTime = travelTime;
     }
+
+    @Override
+    public String toString() {
+        return "Road " + id
+                + ": " + sourceLibraryId
+                + " -> " + destinationLibraryId
+                + " (distance=" + distance
+                + ", travelTime=" + travelTime + ")";
+    }
 }

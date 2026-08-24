@@ -1,6 +1,7 @@
-package repo;
+package repository;
 
 import db.DatabaseManager;
+import datastructures.linear.LinkedList;
 import model.Library;
 
 import java.sql.Connection;
@@ -8,8 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LibraryRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -26,13 +25,13 @@ public class LibraryRepository {
         }
     }
 
-    public List<Library> findAll() {
-        List<Library> libraries = new ArrayList<>();
+    public LinkedList<Library> findAll() {
+        LinkedList<Library> libraries = new LinkedList<>();
         String sql = "SELECT id, library_name, location, open_hours FROM libraries";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                libraries.add(new Library(
+                libraries.addLast(new Library(
                     rs.getInt("id"),
                     rs.getString("library_name"),
                     rs.getString("location"),
