@@ -1,36 +1,47 @@
 package test.graph;
 
+import datastructures.graph.DijkstraResult;
 import datastructures.graph.Graph;
+import model.Library;
+import model.Road;
 
 public class GraphTest {
 
     public static void main(String[] args) {
 
-        Graph<String> graph = new Graph<>();
+        Graph graph = new Graph();
 
-        graph.addVertex("Balme Library");
-        graph.addVertex("Commonwealth Hall");
-        graph.addVertex("Legon Hall");
-        graph.addVertex("Business School");
+        graph.addLibrary(new Library(0, "Balme Library", "UG Main Campus", "8:00 AM - 10:00 PM"));
+        graph.addLibrary(new Library(1, "Commonwealth Hall", "UG", "8:00 AM - 10:00 PM"));
+        graph.addLibrary(new Library(2, "Legon Hall", "UG", "8:00 AM - 10:00 PM"));
+        graph.addLibrary(new Library(3, "Business School", "UG", "8:00 AM - 10:00 PM"));
 
-        graph.addUndirectedEdge(0,1,2.5);
-        graph.addUndirectedEdge(0,2,4.1);
-        graph.addUndirectedEdge(1,3,1.2);
+        graph.addRoad(new Road(
+                1,
+                0,
+                1,
+                2.5,
+                2.5
+        ));
 
-        double[] distances = graph.dijkstra(0);
+        graph.addRoad(new Road(
+                2,
+                0,
+                2,
+                4.1,
+                4.1
+        ));
 
-        System.out.println("Shortest Distances");
+        graph.addRoad(new Road(
+                3,
+                1,
+                3,
+                1.2,
+                1.2
+        ));
 
-        for(int i=0;i<distances.length;i++){
+        DijkstraResult result = graph.dijkstra(0);
 
-            System.out.println(
-                    graph.getVertex(i)
-                    +" -> "
-                    +distances[i]
-            );
-
-        }
-
+        System.out.println(result);
     }
-
 }

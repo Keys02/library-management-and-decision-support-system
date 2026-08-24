@@ -35,4 +35,41 @@ public class DijkstraResult {
     }
 
     public int getSourceId() { return sourceId; }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Dijkstra Result\n");
+        sb.append("Source: ").append(sourceId).append("\n");
+
+        for (int i = 0; i < dist.length; i++) {
+
+            if (dist[i] == Double.MAX_VALUE) {
+                sb.append("Library ")
+                .append(i)
+                .append(": unreachable\n");
+                continue;
+            }
+
+            sb.append("Library ")
+            .append(i)
+            .append(": distance = ")
+            .append(dist[i])
+            .append(", path = ");
+
+            LinkedList<Integer> path = pathTo(i);
+
+            for (int j = 0; j < path.size(); j++) {
+                if (j > 0) {
+                    sb.append(" -> ");
+                }
+                sb.append(path.get(j));
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }
