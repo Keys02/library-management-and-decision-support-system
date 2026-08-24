@@ -20,18 +20,36 @@ Managing these operations efficiently requires more than permanent storage of re
 The project therefore aims to design and implement a library management and decision support system that integrates a database with custom data structures and algorithms. The system will provide a practical environment for evaluating the correctness and efficiency of different algorithmic approaches while addressing realistic library service operations within a Ghanaian context.
 
 ## 2. Assumptions, Input-Output Definitions and System Boundaries
-### 2.1 Assumptions
+### 2.1 Key Decision-Support Questions
 
-The system is designed based on the following assumptions:
+The system is designed to answer the following operational questions:
 
-- Each library branch, book, patron, service request, resource, road and algorithm run has a unique identifier.
-- Library records are stored persistently in the project database and can be reloaded when the application starts.
-- The library branches form a network in which roads or connections between locations have associated weights such as distance, travel time or road-condition weight.
-- Service requests contain sufficient information to determine their urgency, priority and processing order.
-- Resources available to the library network have defined capacities and availability statuses.
-- Search operations that require ordered data, such as binary search, are performed only after the relevant records have been sorted.
-- Graph operations may encounter disconnected locations or locations for which no valid route exists, and the system must handle these cases appropriately.
-- The application operates on valid library data while also checking boundary and invalid-input cases through testing.
+1. **Which service request should be handled next?**  
+   Service requests can be processed according to FIFO, urgency and priority-based rules. This allows the system to compare ordinary arrival-order processing with priority-based scheduling.
+
+2. **What is the fastest route from one library branch to another?**  
+   Library branches and the roads connecting them are represented as a weighted graph. Dijkstra's algorithm is used to determine the shortest route between two branches using non-negative road weights such as distance or travel time.
+
+3. **Which library branches are reachable from a given dispatch point?**  
+   Breadth-First Search (BFS) and Depth-First Search (DFS) are used to traverse the library network and determine which branches can be reached from a selected starting branch.
+
+4. **Which subset of requests or resources should be selected under a budget or capacity constraint?**  
+   Greedy and dynamic-programming approaches are used for optimisation problems in which available resources, cost, capacity or other constraints limit the possible selections.
+
+5. **How do alternative data structures and algorithms perform as the amount of data increases?**  
+   The system records empirical measurements such as execution time, memory consumption and input size. These measurements allow alternative algorithms and data structures to be compared as the dataset grows.
+
+### 2.2 Assumptions
+
+The system makes the following assumptions:
+
+- Road weights, including distance and travel time, are non-negative. This is required for the use of Dijkstra's shortest-path algorithm.
+- Each service request belongs to exactly one patron and references exactly one book.
+- A book belongs to exactly one library branch at a time.
+- Records required by the algorithms can be retrieved from persistent storage and loaded into the appropriate in-memory data structures.
+- Input data is expected to satisfy the basic formats and constraints required by the system.
+
+
 ### 2.2 Input Definitions
 
 The major inputs to the system include:
@@ -61,9 +79,33 @@ The system focuses on the data-structure, algorithmic and database requirements 
 
 The project does not focus on developing a complex graphical user interface. A console menu or simple graphical interface is sufficient for demonstrating the required operations. The system also does not attempt to model every activity performed by a real public library. Its scope is limited to the records and operational problems required to demonstrate the specified data structures, algorithms, database integration, testing and performance analysis.
 
+### 2.5 System Boundaries
+
+The system is limited to the management and algorithmic analysis of the selected public-library operations. It supports persistent data storage, service-request processing, searching and sorting, graph-based routing and reachability, resource optimisation, correctness testing and empirical performance analysis.
+
+The system does **not** handle payment processing or physical hardware such as RFID scanners. It assumes single-machine operation and does not provide distributed or concurrent access within the scope of this project.
+
+The project also does not focus on developing a complex graphical user interface. A console menu or simple graphical interface is sufficient for demonstrating the required functionality.
+
 ## 3. Dataset Description and Data Dictionary
 
-### 3.1 Dataset Description
+### 3.1 Mapping of Brief Entities to the Library Context
+
+The project brief defines a generic dataset that must be adapted to the selected Ghanaian context. For the public library network, the generic entities are mapped to the implementation as follows:
+
+| Brief's Generic Entity | Library System Table | Purpose |
+|---|---|---|
+| Locations (minimum 50) | `libraries` | Each record represents a physical library branch in the network. |
+| Roads (minimum 100) | `roads` | Represents connections between library branches. |
+| Service Requests (minimum 300) | `service_requests` | Represents requests submitted by patrons for library services. |
+| Resources (minimum 30) | `resources` | Represents resources available for allocation and optimisation. |
+| Algorithm Runs (minimum 30) | `algorithm_runs` | Stores empirical measurements produced by algorithm experiments. |
+| Audit Events | `audit_events` | Planned table for stack-based undo and audit-history functionality; not yet present in the current schema. |
+
+The implementation additionally contains the `books`, `librarians` and `patrons` tables. These entities extend the brief's minimum generic dataset because they are required to model the selected library context properly.
+
+### 3.2 Dataset Description
+
 
 The dataset represents the information required to operate and analyse a network of public libraries in Ghana. It supports both normal library-management activities and the algorithmic operations required by the project.
 
@@ -75,7 +117,7 @@ The `books`, `patrons` and `librarians` tables represent the main records involv
 
 The `resources` table stores resources that may be considered during allocation and optimisation operations. Finally, the `algorithm_runs` table stores empirical performance measurements, including algorithm name, input size, execution time and memory usage. These records provide evidence for comparing theoretical algorithmic complexity with observed performance.
 
-### 3.2 Data Dictionary
+### 3.3 Data Dictionary
 
 | Table | Field | Data Type | Description |
 |---|---|---|---|
@@ -122,13 +164,34 @@ The `resources` table stores resources that may be considered during allocation 
 | `algorithm_runs` | `memory_kb` | INTEGER | Memory consumption measured in kilobytes. |
 | `algorithm_runs` | `date_run` | TEXT | Date on which the experiment was performed. |
 
-### 3.3 Database Relationships
+### 3.4 Database Relationships
+
 
 Foreign-key relationships are used to maintain connections between related records. The `roads` table references the `libraries` table through both `source_library_id` and `destination_library_id`, allowing library branches to form a graph of connected locations. The `librarians.library_id` and `books.library_id` fields associate librarians and books with their respective library branches.
 
 The `service_requests` table references both `patrons` and `books`. This connects each service request to the patron who submitted it and the book involved in the request.
 
 Foreign-key enforcement is enabled in SQLite to help preserve referential integrity between these related records.
+
+### 3.5 Dataset Size
+
+The final dataset is being generated as part of the database workstream. The report will be updated with the actual row counts once the seed data has been completed and verified.
+
+| Entity | Required Minimum | Current Verified Count |
+|---|---:|---:|
+| Libraries | 50 | TBD |
+| Roads | 100 | TBD |
+| Service Requests | 300 | TBD |
+| Resources | 30 | TBD |
+| Algorithm Runs | 30+ | TBD |
+
+The final report will replace the `TBD` values with counts obtained from the completed project database.
+
+### 3.6 Data Provenance
+
+The dataset used by the system is being prepared as part of the database workstream. Library branch and location data will represent realistic Ghanaian locations, while records that could represent individuals, such as patron information, will use synthetic data to avoid exposing personal information.
+
+**Note:** The final description of the dataset-generation method will be updated after confirmation from DB2 regarding the seed-data generation process.
 
 ## 4. System Architecture and Module Design
 
@@ -204,3 +267,21 @@ The UML diagram below presents the principal domain entities and their relations
 ![UML domain model](../../uml_diagram.jpg)
 
 **Figure 1: UML domain model for the Library Management and Decision Support System.**
+### 4.8 Module Breakdown
+
+The system is divided into ten functional modules that collectively support data management, custom data structures, algorithms, database operations and user interaction. The table below summarises the responsibility and current implementation status of each module.
+
+| Module | Description | Owner | Status |
+|---|---|---|---|
+| M1 | Linear data structures for managing operational records, including linked lists, stacks, queues and deques. | JP1 | In progress |
+| M2 | Priority-based structures, including priority queues/heaps and tree-based structures such as BST and B-tree. | JP2 | In progress |
+| M3 | Graph representation and traversal, including adjacency structures, BFS and DFS. | JP3 | In progress |
+| M4 | Shortest-path and minimum-spanning-tree algorithms, including Dijkstra, Prim and Kruskal. | JP3 | In progress |
+| M5 | Searching algorithms for locating records efficiently. | JP4 | In progress |
+| M6 | Sorting algorithms for organising system records. | JP4 | In progress |
+| M7 | Greedy and dynamic-programming techniques for optimisation and resource-selection problems. | JP4 | In progress |
+| M8 | SQLite database schema, JDBC connection and persistent storage management. | DB1 | In progress |
+| M9 | Repository operations, seed-data handling and retrieval of persistent records. | DB2 | In progress |
+| M10 | Application/controller and user-interface integration connecting system operations to the user. | UI Team / Java Team | In progress |
+
+The completion status of these modules will be updated as implementation and integration progress.
