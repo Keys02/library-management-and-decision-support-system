@@ -15,7 +15,7 @@ public class Searching {
         return -1;
     }
 
-    // ── Binary Search  O(log n) — array must be sorted ────
+    // ── Binary Search  O(log n) — array must be sorted ───
 
     public static int binarySearch(DynamicArray<Integer> arr, int target) {
         int lo = 0, hi = arr.size() - 1;
