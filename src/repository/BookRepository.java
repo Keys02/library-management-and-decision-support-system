@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class BookRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -28,13 +27,13 @@ public class BookRepository {
         }
     }
 
-    public List<Book> findAll() {
-        List<Book> books = new ArrayList<>();
+    public LinkedList<Book> findAll() {
+        LinkedList<Book> books = new LinkedList<>();
         String sql = "SELECT id, title, author, isbn, available, library_id FROM books";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                books.add(mapRow(rs));
+                books.addLast(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load books.", e);

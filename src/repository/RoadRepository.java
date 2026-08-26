@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class RoadRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -27,13 +26,13 @@ public class RoadRepository {
         }
     }
 
-    public List<Road> findAll() {
-        List<Road> roads = new ArrayList<>();
+    public LinkedList<Road> findAll() {
+        LinkedList<Road> roads = new LinkedList<>();
         String sql = "SELECT id, source_library_id, destination_library_id, distance, travel_time FROM roads";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                roads.add(new Road(
+                roads.addLast(new Road(
                     rs.getInt("id"),
                     rs.getInt("source_library_id"),
                     rs.getInt("destination_library_id"),
@@ -69,8 +68,8 @@ public class RoadRepository {
     }
 
     /** All roads touching a given library — convenience method for building the graph. */
-    public List<Road> findByLibraryId(int libraryId) {
-        List<Road> roads = new ArrayList<>();
+    public LinkedList<Road> findByLibraryId(int libraryId) {
+        LinkedList<Road> roads = new LinkedList<>();
         String sql = "SELECT id, source_library_id, destination_library_id, distance, travel_time "
             + "FROM roads WHERE source_library_id = ? OR destination_library_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -78,7 +77,7 @@ public class RoadRepository {
             stmt.setInt(2, libraryId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    roads.add(new Road(
+                    roads.addLast(new Road(
                         rs.getInt("id"),
                         rs.getInt("source_library_id"),
                         rs.getInt("destination_library_id"),

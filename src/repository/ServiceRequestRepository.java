@@ -11,8 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class ServiceRequestRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -35,13 +34,13 @@ public class ServiceRequestRepository {
         }
     }
 
-    public List<ServiceRequest> findAll() {
-        List<ServiceRequest> requests = new ArrayList<>();
+    public LinkedList<ServiceRequest> findAll() {
+        LinkedList<ServiceRequest> requests = new LinkedList<>();
         String sql = "SELECT id, patron_id, book_id, request_type, urgency, status, created_at FROM service_requests";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                requests.add(mapRow(rs));
+                requests.addLast(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load service requests.", e);
@@ -65,15 +64,15 @@ public class ServiceRequestRepository {
     }
 
     /** Requests filtered by status — convenience method for the dispatch queue. */
-    public List<ServiceRequest> findByStatus(RequestStatus status) {
-        List<ServiceRequest> requests = new ArrayList<>();
+    public LinkedList<ServiceRequest> findByStatus(RequestStatus status) {
+        LinkedList<ServiceRequest> requests = new LinkedList<>();
         String sql = "SELECT id, patron_id, book_id, request_type, urgency, status, created_at "
             + "FROM service_requests WHERE status = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, status.name());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    requests.add(mapRow(rs));
+                    requests.addLast(mapRow(rs));
                 }
             }
         } catch (SQLException e) {

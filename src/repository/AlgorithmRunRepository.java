@@ -9,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class AlgorithmRunRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -29,8 +28,8 @@ public class AlgorithmRunRepository {
         }
     }
 
-    public List<AlgorithmRun> findAll() {
-        List<AlgorithmRun> runs = new ArrayList<>();
+    public LinkedList<AlgorithmRun> findAll() {
+        LinkedList<AlgorithmRun> runs = new LinkedList<>();
         String sql = "SELECT id, algorithm_name, input_size, time_ns, memory_kb, date_run FROM algorithm_runs";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
