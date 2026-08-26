@@ -58,15 +58,15 @@ public class AlgorithmRunRepository {
     }
 
     /** All runs for a given algorithm — convenience method for building the performance graphs. */
-    public List<AlgorithmRun> findByAlgorithmName(String algorithmName) {
-        List<AlgorithmRun> runs = new ArrayList<>();
+    public LinkedList<AlgorithmRun> findByAlgorithmName(String algorithmName) {
+        LinkedList<AlgorithmRun> runs = new LinkedList<>();
         String sql = "SELECT id, algorithm_name, input_size, time_ns, memory_kb, date_run "
             + "FROM algorithm_runs WHERE algorithm_name = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, algorithmName);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    runs.add(mapRow(rs));
+                    runs.addLast(mapRow(rs));
                 }
             }
         } catch (SQLException e) {
