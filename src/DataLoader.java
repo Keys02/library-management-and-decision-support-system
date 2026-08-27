@@ -22,6 +22,10 @@ public class DataLoader {
     private static final String DATA_DIR = "data/";
 
     public static void main(String[] args) {
+        loadAll();
+    }
+
+    public static void loadAll() {
         System.out.println("=== DataLoader starting ===");
 
         // Clear existing data first to avoid duplicates on re-runs

@@ -58,9 +58,19 @@ public class ApplicationController {
 
     // ── Step 1: Load DB → Data Structures ─────────────
 
-    private void loadDataIntoStructures() {
-        // Load libraries into graph
+    public synchronized void loadDataIntoStructures() {
         libraries = libraryRepo.findAll();
+        if (libraries.isEmpty()) {
+            System.out.println("[System] Database is empty. Automatically loading seed data from CSVs...");
+            try {
+                DataLoader.loadAll();
+                libraries = libraryRepo.findAll();
+            } catch (Exception e) {
+                System.out.println("[System] Note on seed data: " + e.getMessage());
+            }
+        }
+
+        // Load libraries into graph
         for (int i = 0; i < libraries.size(); i++)
             graph.addLibrary(libraries.get(i));
 
@@ -90,6 +100,47 @@ public class ApplicationController {
             }
         }
     }
+
+    public synchronized void addNewBook(Book book) {
+        bookRepo.save(book);
+        books = bookRepo.findAll();
+        bookIndex.insert(book.getTitle());
+    }
+
+    public synchronized void addNewPatron(Patron patron) {
+        patronRepo.save(patron);
+        patrons = patronRepo.findAll();
+    }
+
+    public synchronized void submitNewRequest(ServiceRequest req) {
+        requestRepo.save(req);
+        requestQueue.enqueue(req);
+        requestService.submitRequest(req);
+    }
+
+    public synchronized ServiceRequest processNextRequest() {
+        if (requestService.hasPending()) {
+            ServiceRequest next = requestService.processNext();
+            requestRepo.updateStatus(next.getId(), RequestStatus.PROCESSING);
+            return next;
+        }
+        return null;
+    }
+
+    public LinkedList<Book> getBooks() { return books; }
+    public LinkedList<Patron> getPatrons() { return patrons; }
+    public LinkedList<Library> getLibraries() { return libraries; }
+    public LinkedList<Resource> getResources() { return resources; }
+    public Graph getGraph() { return graph; }
+    public BinarySearchTree<String> getBookIndex() { return bookIndex; }
+    public PriorityQueue<ServiceRequest> getRequestQueue() { return requestQueue; }
+    public RequestService getRequestService() { return requestService; }
+    public BookRepository getBookRepo() { return bookRepo; }
+    public PatronRepository getPatronRepo() { return patronRepo; }
+    public ServiceRequestRepository getRequestRepo() { return requestRepo; }
+    public LibraryRepository getLibraryRepo() { return libraryRepo; }
+    public RoadRepository getRoadRepo() { return roadRepo; }
+    public ResourceRepository getResourceRepo() { return resourceRepo; }
 
     // ── Step 2: Console Menu ───────────────────────────
 
