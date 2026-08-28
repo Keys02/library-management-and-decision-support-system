@@ -34,7 +34,7 @@ public class AlgorithmRunRepository {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                runs.add(mapRow(rs));
+                runs.addLast(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load algorithm runs.", e);
