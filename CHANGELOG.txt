@@ -1,0 +1,79 @@
+CHANGELOG
+Ghana Smart Service Operations Optimizer — Library Network Management System
+DCIT 204/308 Joint Project
+
+Format: reverse chronological, one entry per commit/logical unit of work.
+Update this file as you go — don't reconstruct it from git log right
+before submission, it stops being useful as a project narrative if you do.
+
+## 2026-08-20
+- feat: add remaining repository classes
+  Added BookRepository, LibrarianRepository, PatronRepository,
+  RoadRepository, ResourceRepository, ServiceRequestRepository,
+  AlgorithmRunRepository, AuditEventRepository. All 9 schema tables now
+  have a repository, following LibraryRepository's save/findAll/findById
+  pattern. Added the missing AuditEvent model class. ResourceRepository
+  and ServiceRequestRepository handle enum<->TEXT conversion for their
+  enum fields.
+
+## 2026-08-16
+- docs: add UML class diagram (uml_diagram.jpg)
+- docs: rewrite README.md with plain-language system explanation,
+  architecture summary, and status table
+
+## 2026-08-15
+- chore: add Java programming setup documentation (JAVA_PROGRAMMING.md)
+
+## 2026-08-14
+- docs: add TEAM_PLAN.md, DOCS_WRITING.md (doc/ folder structure,
+  01-04 section ownership), doc/01_overview_and_architecture/
+  instructions.md, BRANCHING.md (per-person branch convention, merge
+  cadence, commit rules)
+- chore: rename exception class files to match their public class names
+  exactly (BookUnavailableexception.java -> BookUnavailableException.java,
+  Invalidweighttypeexeception.java -> InvalidWeightTypeException.java,
+  Libraryconnectionexception.java -> LibraryConnectionException.java) —
+  javac requires filename/class-name match; these mismatches broke
+  plain-javac builds
+- chore: stop tracking library.db (generated file, already gitignored)
+- fix: file rename to prevent doc/docs folder mismatch
+- feat: add SQLite database layer — DatabaseManager (JDBC singleton,
+  auto-creates tables via CREATE TABLE IF NOT EXISTS) and
+  LibraryRepository (save/findAll/findById), verified end-to-end against
+  a live SQLite database
+- chore: fix VS Code false-positive Java 17 errors — added
+  .settings/org.eclipse.jdt.core.prefs to pin compiler compliance to 17
+  for the unmanaged (non-Maven/Gradle) project
+- refactor: replace string fields with enums and custom exceptions —
+  added RequestStatus, RequestType, ResourceType enums; added domain
+  exceptions under src/exception/; updated Book, Road, ServiceRequest,
+  Patron, Resource models accordingly
+
+## 2026-08-12
+- feat: define core domain models — Library, Book, Patron, Librarian,
+  ServiceRequest, Road, Resource, AlgorithmRun
+- feat: add behaviour methods — book availability/borrow/return,
+  patron/librarian detail accessors, service request status update and
+  priority calculation, road weight and connected-library lookups,
+  resource total cost/value calculations
+
+## 2026-08-03
+- chore: bootstrap project using the singleton design pattern
+  (Application, ApplicationController entry point)
+
+## 2026-07-31
+- Initial commit
+
+---
+
+## Unreleased / in progress
+
+- Swing GUI (src/ui/) — not yet started
+- Performance-experiment harness for algorithm_runs — not yet started
+- doc/02_data_structures, doc/03_algorithms_and_correctness,
+  doc/04_performance_and_integration drafts — instructions written,
+  drafts not yet started
+- AI_DISCLOSURE.md — drafted, pending commit
+- Stack (LinkedStack) and audit_events wiring — currently unused,
+  no undo-log evidence exists yet
+- Performance CSV export and graphs — blocked on the harness above

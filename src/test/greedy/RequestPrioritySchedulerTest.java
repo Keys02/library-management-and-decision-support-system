@@ -1,13 +1,12 @@
 package test.greedy;
 
 import algorithms.greedy.RequestPriorityScheduler;
-import model.RequestStatus;
-import model.RequestType;
-import model.ServiceRequest;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import model.RequestStatus;
+import model.RequestType;
+import model.ServiceRequest;
 
 public class RequestPrioritySchedulerTest {
 
