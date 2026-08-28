@@ -9,8 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class AuditEventRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -27,8 +26,8 @@ public class AuditEventRepository {
         }
     }
 
-    public List<AuditEvent> findAll() {
-        List<AuditEvent> events = new ArrayList<>();
+    public LinkedList<AuditEvent> findAll() {
+        LinkedList<AuditEvent> events = new LinkedList<>();
         String sql = "SELECT id, event_type, description, created_at FROM audit_events";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

@@ -63,37 +63,48 @@ layer.
 | Enums (`RequestStatus`, `RequestType`, `ResourceType`) | ✅ Done |
 | Custom exceptions | ✅ Done |
 | Database connection + schema (`DatabaseManager`) | ✅ Done |
-| Repository classes (`LibraryRepository` + 8 more) | 🔶 1 of 9 done |
-| Custom data structures (linked list, stack, queue, heap, BST, hash table, graph, etc.) | ⬜ Not started |
-| Algorithms (search, sort, BFS/DFS, Dijkstra, Prim/Kruskal, greedy, DP) | ⬜ Not started |
-| Service layer (`ApplicationController`) | ⬜ Stub only, not wired |
-| UI (Swing) | ⬜ Not started |
-| Seed data (50+ libraries, 100+ roads, 300+ requests) | ⬜ Not started |
+| Repository classes (`LibraryRepository`, `BookRepository`, `PatronRepository`, `RoadRepository`, etc.) | ✅ Done |
+| Custom data structures (LinkedList, Stack, Queue, MaxHeap, BST, Hash Table, Graph) | ✅ Done |
+| Algorithms (Linear/BST Search, QuickSort, MergeSort, BFS/DFS, Dijkstra, Kruskal/Prim MST, Knapsack DP, Greedy) | ✅ Done |
+| Service layer (`ApplicationController`) | ✅ Done |
+| Web UI & Decision Support Dashboard | ✅ Done |
+| Interactive Console CLI Menu | ✅ Done |
+| Seed data (50 libraries, 100 roads, 50 books, 50 patrons) | ✅ Done |
 
 ## Project documentation
 
-- **[`TEAM_PLAN.md`](./TEAM_PLAN.md)** — role assignments and day-by-day
-  schedule
-- **[`DATABASE_SETUP.md`](./DATABASE_SETUP.md)** — SQLite + JDBC setup,
-  schema, repository pattern
-- **[`JAVA_PROGRAMMING.md`](./JAVA_PROGRAMMING.md)** — data structure and
-  algorithm assignments
-- **[`DOCS_WRITING.md`](./DOCS_WRITING.md)** — technical report structure
-  and ownership
+- **[`TEAM_PLAN.md`](./TEAM_PLAN.md)** — role assignments and day-by-day schedule
+- **[`DATABASE_SETUP.md`](./DATABASE_SETUP.md)** — SQLite + JDBC setup, schema, repository pattern
+- **[`JAVA_PROGRAMMING.md`](./JAVA_PROGRAMMING.md)** — data structure and algorithm assignments
+- **[`DOCS_WRITING.md`](./DOCS_WRITING.md)** — technical report structure and ownership
 - **[`BRANCHING.md`](./BRANCHING.md)** — git branching strategy
-- **[`docs/`](./docs)** — the actual report draft, one numbered folder
-  per section
 
-## Running the project
+## Running the project (Web UI & Console)
 
-No Maven/Gradle — this project compiles with plain `javac`. The SQLite
-JDBC driver jar must be present at `lib/sqlite-jdbc-3.53.2.1.jar` (already
-committed to the repo).
+No Maven/Gradle needed — this project compiles with standard `javac`. The SQLite JDBC driver is located in `lib/sqlite-jdbc-3.53.2.1.jar`.
 
+### 1. Compile
 ```powershell
-javac -cp lib\sqlite-jdbc-3.53.2.1.jar src\Main.java src\Application.java src\ApplicationController.java src\model\*.java src\exception\*.java src\db\*.java src\repo\*.java -d out
+javac -cp "lib\sqlite-jdbc-3.53.2.1.jar" -d out (Get-ChildItem -Recurse -Filter *.java src -Exclude *Test*.java | ForEach-Object { $_.FullName })
+```
+
+*On macOS / Linux:*
+```bash
+javac -cp "lib/sqlite-jdbc-3.53.2.1.jar" -d out $(find src -name "*.java" ! -name "*Test*.java")
+```
+
+### 2. Run
+```powershell
 java -cp "out;lib\sqlite-jdbc-3.53.2.1.jar" Main
 ```
 
-(`Main.java` currently has no functioning entry point wired up yet — see
-`JAVA_PROGRAMMING.md` for what's still needed.)
+*On macOS / Linux:*
+```bash
+java -cp "out:lib/sqlite-jdbc-3.53.2.1.jar" Main
+```
+
+### 3. Access the Web UI
+When you run the application:
+1. **The Web UI automatically opens in your default browser** at **`http://localhost:8080`**.
+2. **The interactive CLI menu** also runs simultaneously in your terminal.
+3. Both interfaces share the same real-time database and in-memory engine.

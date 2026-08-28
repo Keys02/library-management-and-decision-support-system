@@ -1,0 +1,31 @@
+name,type,cost,quantity,value
+Desktop Computer,EQUIPMENT,2500.0,5,90
+Laptop Computer,EQUIPMENT,3500.0,3,95
+Projector,EQUIPMENT,1800.0,2,80
+Photocopier,EQUIPMENT,4000.0,1,85
+Scanner,EQUIPMENT,800.0,4,70
+Reading Tablets,EQUIPMENT,1200.0,10,75
+Mobile Hotspot,EQUIPMENT,300.0,8,60
+Study Room A,ROOM,500.0,1,70
+Study Room B,ROOM,500.0,1,70
+Conference Hall,ROOM,1500.0,1,90
+Children Reading Corner,ROOM,300.0,1,65
+Research Lab,ROOM,2000.0,1,95
+Introduction to Algorithms Textbook,BOOK,150.0,20,80
+Data Structures in Java Textbook,BOOK,120.0,15,85
+Ghana History Encyclopedia,BOOK,200.0,10,75
+African Literature Collection,BOOK,80.0,25,70
+Mathematics for Scientists,BOOK,130.0,18,80
+Database Systems Textbook,BOOK,140.0,12,82
+Computer Networks Textbook,BOOK,135.0,14,78
+English Dictionary,BOOK,50.0,30,60
+French-English Dictionary,BOOK,60.0,20,62
+Atlas of Ghana,BOOK,175.0,8,72
+Science Encyclopedia,BOOK,220.0,6,88
+Programming in Python,BOOK,110.0,16,83
+Whiteboard Set,EQUIPMENT,400.0,6,65
+Printer,EQUIPMENT,1200.0,3,72
+Audio System,EQUIPMENT,900.0,2,68
+Wheelchair Access Ramp,EQUIPMENT,2000.0,1,90
+CCTV Security System,EQUIPMENT,3000.0,1,88
+Fire Extinguisher Set,EQUIPMENT,500.0,4,95

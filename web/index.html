@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Smart Service & Decision Support System</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ── Sidebar ──────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <span class="svg-icon icon-20">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+                </span>
+            </div>
+            <div>
+                <div class="brand-title">LibSystem</div>
+                <div class="brand-sub">Decision Support Suite</div>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <a class="nav-item active" data-view="dashboard">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                </span>
+                <span>Dashboard</span>
+            </a>
+            <a class="nav-item" data-view="books">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+                </span>
+                <span>Books</span>
+                <span class="badge" id="badge-books">0</span>
+            </a>
+            <a class="nav-item" data-view="patrons">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <span>Patrons</span>
+                <span class="badge" id="badge-patrons">0</span>
+            </a>
+            <a class="nav-item" data-view="requests">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/></svg>
+                </span>
+                <span>Service Requests</span>
+                <span class="badge" id="badge-requests" style="background: rgba(245,158,11,0.2); color:#fbbf24;">0</span>
+            </a>
+            <a class="nav-item" data-view="search-sort">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="m11 8 3 3-3 3"/></svg>
+                </span>
+                <span>Search & Sort Lab</span>
+            </a>
+            <a class="nav-item" data-view="graph">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/><line x1="6" x2="6" y1="9" y2="15"/></svg>
+                </span>
+                <span>Graph Navigation</span>
+            </a>
+            <a class="nav-item" data-view="decision">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 22 4-10 4 10"/></svg>
+                </span>
+                <span>Decision Support</span>
+            </a>
+            <a class="nav-item" data-view="libraries">
+                <span class="svg-icon icon-18">
+                    <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10a2 2 0 0 0-2 2v9"/><path d="M15 10a2 2 0 0 1 2 2v9"/></svg>
+                </span>
+                <span>Library Branches</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="server-status">
+                <div class="status-dot"></div>
+                <span id="status-text">Engine Online (Port 8080)</span>
+            </div>
+            <div style="font-size: 11px; opacity: 0.7;">Java Native Core v1.0</div>
+        </div>
+    </aside>
+
+    <!-- ── Main Area ────────────────────────────────────────────────────── -->
+    <div class="main-wrapper">
+        <header class="topbar">
+            <div class="page-heading">
+                <h1 id="page-title">Dashboard & Overview</h1>
+                <p id="page-desc">Operational telemetry and data structure analytics</p>
+            </div>
+            <div class="topbar-actions">
+                <button class="btn btn-secondary btn-sm" onclick="seedDatabase()">
+                    <span class="svg-icon icon-14">
+                        <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/></svg>
+                    </span>
+                    <span>Seed Dataset</span>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="refreshAllData()">
+                    <span class="svg-icon icon-14">
+                        <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                    </span>
+                    <span>Refresh Data</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="content-container">
+
+            <!-- ── 1. Dashboard View ──────────────────────────────────────── -->
+            <section id="view-dashboard" class="view-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-books">0</div>
+                            <div class="stat-label">Total Books (BST Indexed)</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-patrons">0</div>
+                            <div class="stat-label">Registered Patrons</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon emerald">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-libraries">0</div>
+                            <div class="stat-label">Connected Branches</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon amber">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-pending">0</div>
+                            <div class="stat-label">Pending Queue (MaxHeap)</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><line x1="8.5" x2="15.5" y1="7.5" y2="16.5"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-edges">0</div>
+                            <div class="stat-label">Road Network Edges</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon rose">
+                            <span class="svg-icon icon-20">
+                                <svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="stat-resources">0</div>
+                            <div class="stat-label">Managed Resources</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                    <!-- Pending Queue Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">
+                                    <span class="svg-icon icon-18" style="color: var(--accent-amber);">
+                                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                    </span>
+                                    <span>Priority Request Queue</span>
+                                </div>
+                                <div class="card-subtitle">MaxHeap ordered by priority index & urgency (1–10)</div>
+                            </div>
+                            <button class="btn btn-success btn-sm" onclick="processNextRequest()">
+                                <span class="svg-icon icon-14">
+                                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                                </span>
+                                <span>Process Next</span>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Patron</th>
+                                        <th>Book</th>
+                                        <th>Type</th>
+                                        <th>Urgency</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboard-queue-body">
+                                    <tr><td colspan="6" style="text-align:center; color: var(--text-muted);">No pending requests</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="svg-icon icon-18" style="color: var(--primary-light);">
+                                    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                </span>
+                                <span>Operations</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <button class="btn btn-secondary" onclick="openModal('modal-book')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg></span>
+                                <span>Add New Book</span>
+                            </button>
+                            <button class="btn btn-secondary" onclick="openModal('modal-patron')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg></span>
+                                <span>Register Patron</span>
+                            </button>
+                            <button class="btn btn-secondary" onclick="openModal('modal-request')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+                                <span>Submit Service Request</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="switchView('graph')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span>
+                                <span>Compute Dijkstra Shortest Route</span>
+                            </button>
+                            <button class="btn btn-primary" style="background: #4f46e5; border-color: #6366f1;" onclick="switchView('decision')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg></span>
+                                <span>Knapsack Budget Optimizer</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 2. Books View ──────────────────────────────────────────── -->
+            <section id="view-books" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="search-wrapper">
+                            <span class="search-icon svg-icon icon-16">
+                                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            </span>
+                            <input type="text" class="search-input" id="books-filter-input" placeholder="Filter books by title, author, ISBN..." onkeyup="filterBooksTable()">
+                        </div>
+                        <button class="btn btn-primary" onclick="openModal('modal-book')">
+                            <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg></span>
+                            <span>Add Book</span>
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>ISBN</th>
+                                    <th>Library Branch</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="books-table-body">
+                                <tr><td colspan="6" style="text-align:center;">Loading books...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 3. Patrons View ────────────────────────────────────────── -->
+            <section id="view-patrons" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="search-wrapper">
+                            <span class="search-icon svg-icon icon-16">
+                                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            </span>
+                            <input type="text" class="search-input" id="patrons-filter-input" placeholder="Filter patrons by name, email, phone..." onkeyup="filterPatronsTable()">
+                        </div>
+                        <button class="btn btn-primary" onclick="openModal('modal-patron')">
+                            <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg></span>
+                            <span>Register Patron</span>
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patron Details</th>
+                                    <th>Email Address</th>
+                                    <th>Phone Number</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patrons-table-body">
+                                <tr><td colspan="4" style="text-align:center;">Loading patrons...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 4. Service Requests View ───────────────────────────────── -->
+            <section id="view-requests" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">
+                                <span class="svg-icon icon-18" style="color:var(--accent-amber);">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/></svg>
+                                </span>
+                                <span>Service Requests Queue</span>
+                            </div>
+                            <div class="card-subtitle">Prioritized in real time using custom binary MaxHeap</div>
+                        </div>
+                        <div style="display:flex; gap: 10px;">
+                            <button class="btn btn-success" onclick="processNextRequest()">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span>Process Highest Urgency</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="openModal('modal-request')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg></span>
+                                <span>New Request</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Patron ID</th>
+                                    <th>Book ID</th>
+                                    <th>Type</th>
+                                    <th>Urgency</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody id="requests-table-body">
+                                <tr><td colspan="7" style="text-align:center;">Loading requests...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 5. Search & Sort Explorer ──────────────────────────────── -->
+            <section id="view-search-sort" class="view-section">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <!-- Search Comparison -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">
+                                    <span class="svg-icon icon-18" style="color:var(--primary-light);">
+                                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                    </span>
+                                    <span>Title Search Benchmark</span>
+                                </div>
+                                <div class="card-subtitle">Compare Linear O(n) vs Binary Search Tree O(log n)</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Search Query</label>
+                            <input type="text" id="search-query-input" class="form-control" placeholder="e.g. Algorithms, Data Structures, Java" value="Algorithms">
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                            <button class="btn btn-primary" style="flex:1;" onclick="executeSearch('linear')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><line x1="5" x2="19" y1="12" y2="12"/></svg></span>
+                                <span>Linear Search O(n)</span>
+                            </button>
+                            <button class="btn btn-secondary" style="flex:1;" onclick="executeSearch('bst')">
+                                <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="6" cy="19" r="3"/><circle cx="18" cy="19" r="3"/><path d="M12 8v4"/><path d="m7.5 16.5 3-4.5"/><path d="m16.5 16.5-3-4.5"/></svg></span>
+                                <span>BST Search O(log n)</span>
+                            </button>
+                        </div>
+                        <div class="algo-terminal" id="search-output">
+                            // Search execution timing and match statistics will output here
+                        </div>
+                    </div>
+
+                    <!-- Sort Comparison -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">
+                                    <span class="svg-icon icon-18" style="color:var(--accent-purple);">
+                                        <svg viewBox="0 0 24 24"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/></svg>
+                                    </span>
+                                    <span>Sorting Algorithm Benchmarks</span>
+                                </div>
+                                <div class="card-subtitle">In-memory benchmarks over dynamic array collections</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Select Algorithm</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+                                <button class="btn btn-secondary btn-sm" onclick="executeSort('mergesort')">MergeSort O(n log n)</button>
+                                <button class="btn btn-secondary btn-sm" onclick="executeSort('quicksort')">QuickSort O(n log n)</button>
+                                <button class="btn btn-secondary btn-sm" onclick="executeSort('insertionsort')">InsertionSort O(n²)</button>
+                                <button class="btn btn-secondary btn-sm" onclick="executeSort('selectionsort')">SelectionSort O(n²)</button>
+                            </div>
+                        </div>
+                        <div class="algo-terminal" id="sort-output">
+                            // Execution runtime metrics will output here
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 6. Graph Navigation View ───────────────────────────────── -->
+            <section id="view-graph" class="view-section">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <!-- Shortest Path (Dijkstra) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">
+                                    <span class="svg-icon icon-18" style="color:var(--accent-cyan);">
+                                        <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                                    </span>
+                                    <span>Dijkstra Shortest Route</span>
+                                </div>
+                                <div class="card-subtitle">Optimal travel route and duration across branch graph</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Source Branch ID</label>
+                                <input type="number" id="dijkstra-src" class="form-control" value="1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Destination Branch ID</label>
+                                <input type="number" id="dijkstra-dst" class="form-control" value="10" min="1">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-bottom: 16px;" onclick="runDijkstra()">
+                            <span class="svg-icon icon-14"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></span>
+                            <span>Calculate Shortest Path</span>
+                        </button>
+                        <div class="algo-terminal" id="dijkstra-output">
+                            // Shortest route sequence and transit times will appear here
+                        </div>
+                    </div>
+
+                    <!-- MST (Kruskal / Prim) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">
+                                    <span class="svg-icon icon-18" style="color:var(--accent-emerald);">
+                                        <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="6" cy="18" r="3"/><line x1="6" x2="6" y1="9" y2="15"/><line x1="8.5" x2="15.5" y1="7.5" y2="16.5"/></svg>
+                                    </span>
+                                    <span>Minimum Spanning Tree (MST)</span>
+                                </div>
+                                <div class="card-subtitle">Minimum road network spanning all library branches</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                            <button class="btn btn-primary" style="flex:1;" onclick="runMst('kruskal')">
+                                <span>Kruskal's Algorithm</span>
+                            </button>
+                            <button class="btn btn-secondary" style="flex:1;" onclick="runMst('prim')">
+                                <span>Prim's Algorithm</span>
+                            </button>
+                        </div>
+                        <div class="algo-terminal" id="mst-output">
+                            // Minimum spanning tree road segments and total distance will appear here
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BFS & DFS Traversals -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">
+                                <span class="svg-icon icon-18" style="color:var(--accent-purple);">
+                                    <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                </span>
+                                <span>Graph Traversals (BFS & DFS)</span>
+                            </div>
+                            <div class="card-subtitle">Traverse branch reachability network from any starting node</div>
+                        </div>
+                        <div style="display:flex; gap: 10px; align-items:center;">
+                            <label style="font-size:12.5px; color: var(--text-secondary);">Start Node:</label>
+                            <input type="number" id="traversal-start-id" class="form-control" style="width: 80px;" value="1" min="1">
+                            <button class="btn btn-secondary btn-sm" onclick="runTraversal('bfs')">Run BFS</button>
+                            <button class="btn btn-secondary btn-sm" onclick="runTraversal('dfs')">Run DFS</button>
+                        </div>
+                    </div>
+                    <div class="algo-terminal" id="traversal-output">
+                        // Traversal sequence will appear here
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 7. Decision Support View ───────────────────────────────── -->
+            <section id="view-decision" class="view-section">
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">
+                                <span class="svg-icon icon-18" style="color:var(--accent-cyan);">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                </span>
+                                <span>Resource Allocation Optimizer</span>
+                            </div>
+                            <div class="card-subtitle">0/1 Knapsack (Dynamic Programming) vs Greedy Value-Ratio Heuristic</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px; background: rgba(0,0,0,0.3); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+                        <div style="flex: 1;">
+                            <label class="form-label" style="display:flex; justify-content:space-between;">
+                                <span>Budget Limit:</span>
+                                <strong id="budget-val-display" style="color: var(--accent-cyan); font-family:'Fira Code', monospace;">$5,000</strong>
+                            </label>
+                            <input type="range" id="budget-range" min="500" max="25000" step="500" value="5000" style="width: 100%; accent-color: var(--primary);" oninput="updateBudgetDisplay(this.value)">
+                        </div>
+                        <button class="btn btn-primary" onclick="runKnapsack()">
+                            <span>Optimize (Knapsack DP)</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="runGreedy()">
+                            <span>Compare Greedy</span>
+                        </button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="card" style="background: rgba(0,0,0,0.35); border-color: rgba(6, 182, 212, 0.2);">
+                            <div class="card-title" style="font-size:14.5px; color: var(--accent-cyan);">
+                                <span class="svg-icon icon-16"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span>0/1 Knapsack Optimal (DP)</span>
+                            </div>
+                            <div id="knapsack-results" style="margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+                                Click "Optimize (Knapsack DP)" to compute.
+                            </div>
+                        </div>
+                        <div class="card" style="background: rgba(0,0,0,0.35); border-color: rgba(245, 158, 11, 0.2);">
+                            <div class="card-title" style="font-size:14.5px; color: var(--accent-amber);">
+                                <span class="svg-icon icon-16"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
+                                <span>Greedy Heuristic Selection</span>
+                            </div>
+                            <div id="greedy-results" style="margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+                                Click "Compare Greedy" to compute.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Managed Resources Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="svg-icon icon-18" style="color:var(--accent-rose);">
+                                <svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                            </span>
+                            <span>Resource Inventory Catalogue</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Resource Name</th>
+                                    <th>Category</th>
+                                    <th>Unit Cost ($)</th>
+                                    <th>Quantity</th>
+                                    <th>Value Score</th>
+                                    <th>Total Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resources-table-body">
+                                <tr><td colspan="7" style="text-align:center;">Loading resources...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── 8. Libraries View ──────────────────────────────────────── -->
+            <section id="view-libraries" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="svg-icon icon-18" style="color:var(--accent-emerald);">
+                                <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/></svg>
+                            </span>
+                            <span>Library Branch Network (Ghana)</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Branch ID</th>
+                                    <th>Branch Name</th>
+                                    <th>Location / City</th>
+                                    <th>Operating Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody id="libraries-table-body">
+                                <tr><td colspan="4" style="text-align:center;">Loading library branches...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ── Modals ───────────────────────────────────────────────────────── -->
+
+    <!-- Add Book Modal -->
+    <div id="modal-book" class="modal-backdrop">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="svg-icon icon-18"><svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg></span>
+                    <span>Add New Book</span>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-book')">&times;</button>
+            </div>
+            <form id="form-add-book" onsubmit="submitAddBook(event)">
+                <div class="form-group">
+                    <label class="form-label">Book Title *</label>
+                    <input type="text" id="new-book-title" class="form-control" required placeholder="e.g. Introduction to Algorithms">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Author *</label>
+                    <input type="text" id="new-book-author" class="form-control" required placeholder="e.g. Thomas H. Cormen">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">ISBN</label>
+                        <input type="text" id="new-book-isbn" class="form-control" placeholder="978-0262033848">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Library Branch ID</label>
+                        <input type="number" id="new-book-libid" class="form-control" value="1" min="1">
+                    </div>
+                </div>
+                <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 18px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-book')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Patron Modal -->
+    <div id="modal-patron" class="modal-backdrop">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="svg-icon icon-18"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+                    <span>Register Patron</span>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-patron')">&times;</button>
+            </div>
+            <form id="form-add-patron" onsubmit="submitAddPatron(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" id="new-patron-name" class="form-control" required placeholder="e.g. Abena Darko">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" id="new-patron-email" class="form-control" required placeholder="abena.darko@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number *</label>
+                    <input type="tel" id="new-patron-phone" class="form-control" required placeholder="0241234567">
+                </div>
+                <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 18px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-patron')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Register Patron</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Submit Service Request Modal -->
+    <div id="modal-request" class="modal-backdrop">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="svg-icon icon-18"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                    <span>Submit Service Request</span>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-request')">&times;</button>
+            </div>
+            <form id="form-add-request" onsubmit="submitAddRequest(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Patron ID *</label>
+                        <input type="number" id="req-patron-id" class="form-control" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Book ID *</label>
+                        <input type="number" id="req-book-id" class="form-control" value="1" min="1" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Request Type</label>
+                        <select id="req-type" class="form-control">
+                            <option value="BORROW">BORROW</option>
+                            <option value="RETURN">RETURN</option>
+                            <option value="RESERVE">RESERVE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Urgency Index (1 - 10)</label>
+                        <input type="number" id="req-urgency" class="form-control" value="5" min="1" max="10" required>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 18px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-request')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Enqueue Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class LibrarianRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -26,13 +25,13 @@ public class LibrarianRepository {
         }
     }
 
-    public List<Librarian> findAll() {
-        List<Librarian> librarians = new ArrayList<>();
+    public LinkedList<Librarian> findAll() {
+        LinkedList<Librarian> librarians = new LinkedList<>();
         String sql = "SELECT id, name, email, library_id FROM librarians";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                librarians.add(new Librarian(
+                librarians.addLast(new Librarian(
                     rs.getInt("id"),
                     rs.getString("name"),
                     rs.getString("email"),

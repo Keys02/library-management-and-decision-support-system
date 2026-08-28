@@ -9,8 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import datastructures.linear.LinkedList;
 
 public class ResourceRepository {
     private final Connection connection = DatabaseManager.getInstance().getConnection();
@@ -30,13 +29,13 @@ public class ResourceRepository {
         }
     }
 
-    public List<Resource> findAll() {
-        List<Resource> resources = new ArrayList<>();
+    public LinkedList<Resource> findAll() {
+        LinkedList<Resource> resources = new LinkedList<>();
         String sql = "SELECT id, name, type, cost, quantity, value FROM resources";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                resources.add(mapRow(rs));
+                resources.addLast(mapRow(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load resources.", e);
