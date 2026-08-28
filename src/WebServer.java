@@ -61,12 +61,39 @@ public class WebServer {
 
             server.start();
             System.out.println("==================================================================");
-            System.out.println(" [WebServer] 🚀 UI is LIVE at: http://localhost:" + port);
-            System.out.println(" Open http://localhost:" + port + " in your browser to interact with the UI!");
+            System.out.println(" [WebServer] UI is LIVE at: http://localhost:" + port);
+            System.out.println(" Automatically launching browser at http://localhost:" + port + " ...");
             System.out.println("==================================================================");
+
+            // Attempt to automatically open the default browser for the user
+            openBrowser("http://localhost:" + port);
         } catch (IOException e) {
             System.err.println("[WebServer] Failed to start HTTP server on port " + port + ": " + e.getMessage());
         }
+    }
+
+    private void openBrowser(String url) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(500); // Allow server to bind cleanly
+                if (java.awt.Desktop.isDesktopSupported() && java.awt.Desktop.getDesktop().isSupported(java.awt.Desktop.Action.BROWSE)) {
+                    java.awt.Desktop.getDesktop().browse(new java.net.URI(url));
+                    return;
+                }
+            } catch (Throwable ignored) {}
+
+            // OS Fallbacks
+            String os = System.getProperty("os.name", "").toLowerCase();
+            try {
+                if (os.contains("win")) {
+                    new ProcessBuilder("rundll32", "url.dll,FileProtocolHandler", url).start();
+                } else if (os.contains("mac")) {
+                    new ProcessBuilder("open", url).start();
+                } else if (os.contains("nix") || os.contains("nux")) {
+                    new ProcessBuilder("xdg-open", url).start();
+                }
+            } catch (Throwable ignored) {}
+        }).start();
     }
 
     public void stop() {
@@ -206,9 +233,15 @@ public class WebServer {
                 path = "/index.html";
             }
 
-            File file = new File("web" + path);
-            if (!file.exists()) {
-                file = new File("ui" + path);
+            String cleanPath = path.startsWith("/") ? path.substring(1) : path;
+            File file = null;
+            String[] candidateDirs = { "web", "ui", "library-management-and-decision-support-system/web", "../web", "../../web" };
+            for (String dir : candidateDirs) {
+                File candidate = new File(dir, cleanPath);
+                if (candidate.exists() && !candidate.isDirectory()) {
+                    file = candidate;
+                    break;
+                }
             }
 
             if (file.exists() && !file.isDirectory()) {
